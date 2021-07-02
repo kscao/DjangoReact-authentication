@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +45,14 @@ CORS_ORIGIN_WHITELIST = (
 
 CORS_ALLOW_CREDENTIALS = True
 
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER':  'djangoauthentication.utils.custom_jwt_response_handler'
+}
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -58,7 +66,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'login_app',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,11 +78,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'djangoauthentication.urls'
+TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
